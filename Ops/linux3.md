@@ -23,7 +23,7 @@ systemctl restart httpd
 systemctl status firewalld
 getenforce
 ```
-* gedit /etc/httpd/conf.d/webdav.conf 內容
+* gedit /etc/httpd/conf.d/webdav.conf 
 ```
 DavLockDB /var/www/html/DavLock
 <VirtualHost *:80>
@@ -274,7 +274,7 @@ docker rm [CONTAINER ID]
 docker rm -f $(docker ps -a -q)
 ```
 * docker httpd
-```
+
 docker pull httpd
 docker run -d -p 8889:80 httpd
 which bash
@@ -336,7 +336,7 @@ cd ..
 cd web5
 gedit hi.htm   內容為5
 cd ..
-```
+
 * 腳本
     * 檔案位置在user下
     * -p如果不存在就去創 
@@ -357,7 +357,6 @@ chmod +x prepare_web.sh
 ./prepare_web.sh
 ls
 gedit docker_httpd_setup5.sh
-docker_httpd_setup5.sh
 ```
 #!/user/bin/bash
 for i in {1..5};
@@ -369,14 +368,14 @@ done
 ./docker_httpd_setup5.sh
 docker ps -a
 最後去搜尋引擎輸入 IP:9001/hi.htm 看是否成功
-```
+
 ## dockerfile
 * dockerfile
     * 檔案位置在user下
     * FROM centos:centos7 以cemtos為基礎
     * RUN yum -y install httpd 鏡像安裝
     * .本地目錄  -t 標籤名稱
-```
+
 gedit Dockerfire
 ```
 FROM centos:centos7
@@ -389,7 +388,7 @@ docker build -t myhttpd:1.0 .
 docker images
 docker run -d -p 8888:80 my httpd:1.0 /usr/sbin/apachectl -DFOREGROUND
 docker ps 檢查有無跑起來
-```
+
 ## docker haproxy
 * docker haproxy
     * 192.16.56.113:9001(此處填自己IP)
@@ -550,7 +549,7 @@ touch {a..c}.txt
 cd ..
 tree
 rsync -avzh --excludr 'a.txt' --exclude'b.txt' testdor/ user@192.168.56.101:/tmp/
-```
+
 
 #host2
 
@@ -675,7 +674,7 @@ git clone --depth=1 https://github.com/wojiushixiaobai/Dockerfile.git
 cd Dockerfile/
 cp config_example.conf .env
 gedit .env
-內容
+```
 # 版本号可以自己根据项目的版本修改
 Version=v2.20.3
 
@@ -863,9 +862,10 @@ ip route show
 * 三台修改hosts
     * 如果ping centos7-1 如果可行代表設置成功
     * 為了方便管理可以使用無密碼登入
-```
+
 gedit /etc/hosts
 內容
+```
 127.0.0.1 localhost localhost.localdomin localhost4  localhost4.localdomin4
 ::1       localhost localhost.localdomin localhost6  localhost6.localdomin6
 192.168.56.101 centos7-1
@@ -882,7 +882,7 @@ gedit /etc/hosts
     * 創造prometheus
     * 去搜尋引擎輸入ip ex 192.168.56.101:9090
 
-```
+
 cd Downloads/
 wget https://github.com/prometheus/prometheus/releases/download/v2.35.0/prometheus-2.35.0.linux-amd64.tar.gz
 sudo groupadd prometheus
@@ -893,6 +893,7 @@ cd /opt/module/
 chown -R prometheus.prometheus prometheus-2.35.0.linux-amd64
 mv prometheus-2.35.0.linux-amd64/ prometheus
 cd /usr/lib/systemd/system
+
 gedit prometheus.service
 ```
 [Unit]
@@ -991,6 +992,7 @@ systemctl start node_exporter
 
 ```
 cd /etc/yum.repos.d/
+
 gedit grafana.repo
 ```
 [grafana]
@@ -1032,6 +1034,7 @@ wget https://github.com/prometheus/pushgateway/releases/download/v1.4.2/pushgate
 mv pushgateway-1.4.2.linux-amd64.tar.gz pushgateway
 mv pushgateway /opt/module/
 cd /opt/module/
+
 gedit /usr/lib/systemd/system/pushgateway.service
 ```
 Description=pushgateway
@@ -1046,7 +1049,9 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 systemctl start pushgateway
+
 systemctl status pushgateway
+
 gedit /opt/module/prometheus/prometheus.yml
 ```
 #最下方加上
@@ -1057,7 +1062,7 @@ gedit /opt/module/prometheus/prometheus.yml
 ```
 systemctl daemon-reload
 systemctl restart prometheus
-```
+
 ## 參考資料
 * [Prometheus 查询语言 PromQL 的 CPU 使用率计算方法](https://blog.csdn.net/qq_35753140/article/details/105121525)
 * [Prometheus监控CPU,Memory,Disk](https://www.modb.pro/db/43636)
@@ -1091,10 +1096,17 @@ echo "$label $count_netstat_wait_connetions" | curl --data-binary @- http://192.
 ./tcp_waiting_connection.sh
 
 yum install -y httpd
+
 systemctl start httpd
+
 curl http://192.168.56.101 > /dev/null
+
 echo $?
-cp tcp_waiting_connection.sh check_httpd_centos7-2.sh
+
+cp tcp_waiting_connection.sh 
+
+check_httpd_centos7-2.sh
+
 gedit check_httpd_centos7-2.sh
 ```
 #!/bin/bash
@@ -1210,10 +1222,13 @@ yum install epel-release -y
 yum install ansible
 
 host2.3
+
 systemctl status sshd
 
 host1
+
 gedit /etc/ansible/hosts
+
 ```
 [server1]
 192.168.56.102
@@ -1268,7 +1283,7 @@ ansible server1 -m shell -a "cat tom.txt"
 mkdir test-ansible
 cd test-ansible/
 ansible server1 -m command -a "which bash"
-```
+
 gedit a.sh
 ```
 #!/usr/bin/bash
