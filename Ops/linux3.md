@@ -1057,7 +1057,7 @@ gedit /prometheus.yml
      - targets: ['192.168.48.102:9100', '192.168.48.103:9100']
 ```
 systemctl restart prometheus
-```
+
 
 ## 參考資料
 * [prometheus](https://iter01.com/515175.html)
