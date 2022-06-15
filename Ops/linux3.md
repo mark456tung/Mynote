@@ -1422,11 +1422,11 @@ gedit a.sh
 date
 hostname
 echo "hello"
-
+```
 chmod +x a.sh
 ./a.sh
-```
 
+```
 ansible server1 -m script -a "./a.sh"
 ansible server1 -m script -a "/root/test-ansible/a.sh"
 ansible server1 -m command -a "chdir=/tmp ls"
