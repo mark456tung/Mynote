@@ -1135,12 +1135,13 @@ systemctl status grafana-server
 
 ## pushgateway
 * 最後在windows瀏覽器輸入http://IP:9090，就可以看到pushgateway
-```
+
 cd /home/user/Downloads/
 
 wget https://github.com/prometheus/pushgateway/releases/download/v1.4.2/pushgateway-1.4.2.linux-amd64.tar.gz
 
 mv pushgateway-1.4.2.linux-amd64.tar.gz pushgateway
+
 
 mv pushgateway /opt/module/
 
@@ -1170,7 +1171,7 @@ gedit /opt/module/prometheus/prometheus.yml
     honor_labels: true
     static_configs:
       - targets: ['192.168.56.101:9091']
-
+```
 systemctl daemon-reload
 
 systemctl restart prometheus
