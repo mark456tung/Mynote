@@ -1415,17 +1415,18 @@ ansible server1 -m shell -a "cat tom.txt"
 mkdir test-ansible
 cd test-ansible/
 ansible server1 -m command -a "which bash"
-
+```
 gedit a.sh
 ```
 #!/usr/bin/bash
 date
 hostname
 echo "hello"
-```
+
 chmod +x a.sh
 ./a.sh
 ```
+
 ansible server1 -m script -a "./a.sh"
 ansible server1 -m script -a "/root/test-ansible/a.sh"
 ansible server1 -m command -a "chdir=/tmp ls"
