@@ -1256,7 +1256,7 @@ ansible servers -m command -a "date"
     * 解除安裝
         * removed
         * absent
-```
+
 ```
 ansible servers -m ping
 ansible servers -m command -a "uptime"
