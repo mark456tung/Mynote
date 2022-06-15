@@ -275,9 +275,13 @@ docker rm -f $(docker ps -a -q)
 ```
 * docker httpd
 
+
 docker pull httpd
+
 docker run -d -p 8889:80 httpd
+
 which bash
+
 gedit docker_httpd_setup5.sh 
 ```
 #! /usr/bin/bash
@@ -289,19 +293,29 @@ do
 done
 ```
 chomd + x docker httpd setup5.sh
+
 ./docker httpd setup5.sh
+
 docker ps
+
 
 ```
 * docker hub
 ```
 docker login
+
 輸入email 密碼
+
 docker images
+
 docker tfp ubuntu:v1 帳號/ubuntu:v1
+
 docker push 帳號/ubuntu:v1
+
 docker rmi -f [CONTAINER ID]
+
 docker pull 帳號/ubuntu:v1
+
 ```
 * docker mapping
     * docker apache的網頁主要儲存在/usr/local/apache2/htdocs#下
@@ -309,11 +323,18 @@ docker pull 帳號/ubuntu:v1
     * docker run -d -p 8888:80 -v /home/user/web:/usr/local/apache2/htdocs httpd 把實體位置的資料夾和docker連接在一起
 ```
 mkdir web
+
 cd web
+
 echo "hi" > hi.htm
+
 ls
+
 hi.htm
-docker run -d -p 8888:80 -v /home/user/web:/usr/local/apache2/htdocs httpd
+
+docker run -d -p 8888:80 -v /home/user/web:/usr/local/
+apache2/htdocs httpd
+
 ```
 
 # 第五週筆記
@@ -354,9 +375,13 @@ do
 done
 ```
 chmod +x prepare_web.sh
+
 ./prepare_web.sh
+
 ls
+
 gedit docker_httpd_setup5.sh
+
 ```
 #!/user/bin/bash
 for i in {1..5};
@@ -384,9 +409,15 @@ EXPOSE 80
 ADD index.html /var/www/html
 ```
 echo "hello world " > index.html
+
 docker build -t myhttpd:1.0 .
+
 docker images
-docker run -d -p 8888:80 my httpd:1.0 /usr/sbin/apachectl -DFOREGROUND
+
+docker run -d -p 8888:80 my httpd:1.0 /usr/sbin/
+
+apachectl -DFOREGROUND
+
 docker ps 檢查有無跑起來
 
 ## docker haproxy
@@ -416,6 +447,7 @@ backend myservers
     server server5 192.16.56.113:9005
 ```
 docker run -p 8080:8080  -d --name haproxy-master -v /home/user/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg --privileged=true haproxy
+
 df5447cc3978605df9cfa1cbf0f924546f68c8389c4306b2fee66278ef5dc9d8
 docker ps
 最後去搜尋引擎輸入 IP:8080/hi.htm 看是否成功
@@ -425,9 +457,13 @@ docker ps
 * 檔案位置在user下
 ```
 docker pull faucet/python3
+
 docker run -it -v /home/user:/tmp faucet/python3 bash
+
 cd /mydata
+
 python3 test.py
+
 ```
 ## AWK
 * 檔案位置在user下
@@ -457,8 +493,11 @@ END {
 }
 ```
 awk -f process.awk  file1
+
 總和為:313
+
 average=62.60
+
 ```
 ## 參考資料
 * [awk](https://noootown.com/awk-useful-usage/)
@@ -476,9 +515,13 @@ average=62.60
     * rsync -avh --delete testdir/ /tmp 如果要刪則加上--delete 把tmp所有不同的刪掉
 ```
 yum install rsync
+
 rpm -qa | grep rsync
+
 echo "hi" > a.txt
+
 rsync -avh a.txt /tmp
+
 
 開新視窗
 cd /tmp
@@ -498,39 +541,62 @@ ls
 
 原視窗
 cd testdir
+
 echo "1" > 1.txt
+
 cd ..
+
 rsync -avh testdir/ /tmp
+
 cd testdir
+
 md5sum 1.txt
+
 echo "11" > 1.txt
+
 md5sum 1.txt
+
 touch 11.txt 12.txt
+
 cd ..
+
 rsync -avh testdir/ /tmp
+
 cd testdir
+
 rm 4.txt 5.txt
+
 cd ..
+
 rsync -avh testdir/ /tmp
+
 rsync -avh --delete testdir/ /tmp
+
 cd testdir
+
 mkdir a/b/c -p
+
 tree
+
 cd ..
+
 rsync -avh --delete testdir/ /tmp
-```
+
+
 * 遠端備份
     * 若要使用其他rsync -avzh "ssh -p 22" testdor/ user@192.168.56.101:/tmp/backup/
     * ntpdate watch.stdtime.gov.tw同部台灣時間
     * #host1為客戶端 #host2為server
 ```
 #host2
+```
 su 
 cd /tmp
 mkdir backup
 ```
-```
+
 #host1
+```
 ssh-keygen
 ssh-copy-id user@192.168.56.101
 ssh user@192.116.56.113
@@ -538,27 +604,29 @@ rsync -avzh testdor/ user@192.168.56.101:/tmp/backup/
 touch testdir/111.txt
 rsync -avzh testdor/ user@192.168.56.101:/tmp/backup/
 ```
-```
+
 #host2
-tree backup/
-```
-```
+
+```tree backup/```
+
+
 #host1
+```
 cd testdir/
 touch {a..c}.txt
 cd ..
 tree
 rsync -avzh --excludr 'a.txt' --exclude'b.txt' testdor/ user@192.168.56.101:/tmp/
-
+```
 
 #host2
-
+```
 cd /etc
 
 ls rsyncd.conf
 
 gedit rsyncd.conf
-
+```
 
 ```
 uid=root
@@ -577,16 +645,23 @@ gedit /etc/rsyncd.passwd
 vuser:123456
 ```
 chmod 600 /etc/rsyncd.passwd
+
 ntpdate watch.stdtime.gov.tw
 
 #host1
+
 ntpdate watch.stdtime.gov.tw
 
 #host2
+
 systemctl start rsync
+
 systemctl status rsync
+
 cat /var/run/rsync.pid
+
 cat /var/log/rsync.log
+
 mkdir /backup1
 
 #host1
@@ -595,19 +670,27 @@ gedit /etc/rsync_vuser.passwd
 123456
 ```
 chmod 600 /etc/rsync
+
 chmod 600 /etc/rsync_vuser.passwd
-rsync -avzu --progress --password-file=/etc/rsync_vuser.passwd testdir/ vuser@192.156.56.101::mod1
-```
+
+rsync -avzu --progress --password-file=/etc/
+
+rsync_vuser.passwd testdir/ vuser@192.156.56.101::mod1
+
 ## inotify
 * m監測
 * r子目錄有事件觸發
 * q訊息顯示比較少
-```
+
 yum install inotify-tools
+
 inotifywait -mrq /home/user/testdir --timefmt "%d-%m-%y %H %M"  --format "%T %w%f" -e create,modify,delete,move
+
 #host2新視窗
+
 cd testdir
-rm 6.txt  =>原視窗即可看到
+
+rm 6.txt  
 
 gedit backup.sh
 ```
@@ -884,14 +967,23 @@ gedit /etc/hosts
 
 
 cd Downloads/
+
 wget https://github.com/prometheus/prometheus/releases/download/v2.35.0/prometheus-2.35.0.linux-amd64.tar.gz
+
 sudo groupadd prometheus
+
 sudo useradd -g prometheus -m -d /var/lib/prometheus -s /sbin/nologin prometheus
+
 mkdir -p /opt/module
+
 tar xvfz prometheus-2.35.0.linux-amd64.tar.gz -C /opt/module
+
 cd /opt/module/
+
 chown -R prometheus.prometheus prometheus-2.35.0.linux-amd64
+
 mv prometheus-2.35.0.linux-amd64/ prometheus
+
 cd /usr/lib/systemd/system
 
 gedit prometheus.service
@@ -909,17 +1001,24 @@ ExecStart=/opt/module/prometheus/prometheus --config.file=/opt/module/prometheus
 WantedBy=multi-user.targe
 ```
 systemctl daemon-reload
+
 systemctl start prometheus
 
 ```
 * 三台機器皆下載node_exporter
 ```
 cd /home/user/Downloads/
+
 wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+
 tar xvfz node_exporter-1.3.1.linux-amd64.tar.gz
+
 mv node_exporter-1.3.1.linux-amd64 /opt/module/
+
 mv node_exporter-1.3.1.linux-amd64 node_exporter
+
 cd /usr/lib/systemd/system/
+
 gedit node_exporter.service
 ```
 [Unit]
@@ -936,13 +1035,16 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 systemctl daemon-reload
+
 systemctl start node_exporter
+
 systemctl status node_exporter
 ```
 * 編輯prometheus.yml
     * 編輯完後去windowsn搜尋 http://IP:9090/targets/target (ex: http://192.168.56.101:9090/targets/target) 
 ```
 cd /opt/module/prometheus
+
 gedit /prometheus.yml
 在- targets: ['localhost:9090']下方加上
 ```
@@ -968,6 +1070,7 @@ systemctl restart prometheus
     * 另外兩台的 node_exporter
 ```
 systemctl start prometheus
+
 systemctl start node_exporter
 ```
 * proqml
@@ -1006,9 +1109,13 @@ sslverify = 1
 sslcacert = /etc/pki/tls/certs/ca-bundle.crt
 ```
 yum install grafana
+
 systemctl daemon-reload
+
 systemctl start grafana-server
+
 systemctl status grafana-server
+
 ```
 ## Grafana 和 Prometheus 聯繫
 * 先點左側齒輪(configuration)
@@ -1030,9 +1137,13 @@ systemctl status grafana-server
 * 最後在windows瀏覽器輸入http://IP:9090，就可以看到pushgateway
 ```
 cd /home/user/Downloads/
+
 wget https://github.com/prometheus/pushgateway/releases/download/v1.4.2/pushgateway-1.4.2.linux-amd64.tar.gz
+
 mv pushgateway-1.4.2.linux-amd64.tar.gz pushgateway
+
 mv pushgateway /opt/module/
+
 cd /opt/module/
 
 gedit /usr/lib/systemd/system/pushgateway.service
@@ -1061,6 +1172,7 @@ gedit /opt/module/prometheus/prometheus.yml
       - targets: ['192.168.56.101:9091']
 ```
 systemctl daemon-reload
+
 systemctl restart prometheus
 
 ## 參考資料
@@ -1072,17 +1184,29 @@ systemctl restart prometheus
 ## prometheus監控httpd
 
 host1
+
 systemctl start prometheus
+
 systemctl start node_exporter
+
 systemctl start pushgateway
+
 host2
+
 systemctl start node_exporter
+
 host3
+
 systemctl start node_exporter
+
 host2
-cho "some_metric 6.66" | curl --data-binary @- http://192.168.56.101:9091/metrics/job/some_job
+
+echo "some_metric 6.66" | curl --data-binary @- http://192.168.56.101:9091/metrics/job/some_job
+
 mkdir -p /app/scripts/pushgateway
+
 cd /app/scripts/pushgateway
+
 gedit tcp_waiting_connection.sh
 ```
 #!/bin/bash
@@ -1241,14 +1365,21 @@ gedit /etc/ansible/hosts
 192.168.56.103
 ```
 ansible server1 -m ping
+
 ansible server2 -m ping
+
 ansible servers -m ping
+
 ansible-doc -l
+
 host3
+
 date -s 20220101
+
 host1
+
 ansible servers -m command -a "date"
-```
+
 
 
 # 第十五周
