@@ -498,7 +498,7 @@ awk -f process.awk  file1
 
 average=62.60
 
-```
+
 ## 參考資料
 * [awk](https://noootown.com/awk-useful-usage/)
 
@@ -513,7 +513,7 @@ average=62.60
     * -h：將數字以比較容易閱讀的格式輸出。
     * rpm -qa | grep rsync 有出現rsync代表有安裝反之則沒有安裝
     * rsync -avh --delete testdir/ /tmp 如果要刪則加上--delete 把tmp所有不同的刪掉
-```
+
 yum install rsync
 
 rpm -qa | grep rsync
