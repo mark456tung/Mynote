@@ -1170,7 +1170,7 @@ gedit /opt/module/prometheus/prometheus.yml
     honor_labels: true
     static_configs:
       - targets: ['192.168.56.101:9091']
-```
+
 systemctl daemon-reload
 
 systemctl restart prometheus
