@@ -49,7 +49,6 @@ DavLockDB /var/www/html/DavLock
 * 首先先到IPV6網站查一下有無IPV6
 * [IPV6](https://test-ipv6.com/index.html.zh_TW)
 
-![pic1]()
 
 * 虛擬機設定 -> 網路設為 橋接式的網路
 * 如果要用IPV6去搜尋網址請用中括號刮起來
@@ -89,7 +88,7 @@ sudo sed -i "s/Options Indexes FollowSymLinks/Options FollowSymLinks/" /etc/http
 * ip netns exec net1 ifconfig lo up 啟動
 * veth pair對稱的虛擬網路卡
 
-![pic](https://github.com/www-abcdefg/centos/blob/main/linux3%E8%87%AA%E5%8B%95%E5%8C%96%E9%81%8B%E7%B6%AD/pic/week3/pic1.png)
+
 
 * ip link add type veth 建立網路卡
 * ifconfig -a 剛該使創造網路卡預設是未開啟的
@@ -134,7 +133,7 @@ firefox
 * 多个不同 namespace 之间的通信
 * brctl addbr br0創造橋接器
 
-![pic2](https://github.com/www-abcdefg/centos/blob/main/linux3%E8%87%AA%E5%8B%95%E5%8C%96%E9%81%8B%E7%B6%AD/pic/week3/pic2.png)
+
 
 ```
 ip netns add net0
@@ -280,7 +279,7 @@ docker pull httpd
 docker run -d -p 8889:80 httpd
 which bash
 gedit docker_httpd_setup5.sh 
-內容
+```
 #! /usr/bin/bash
 
 for i in {1..5};
@@ -288,7 +287,7 @@ do
     portno=`expr 9000 + $i`
     docker run -d -p $portno:80 httpd
 done
-以上為內容
+```
 chomd + x docker httpd setup5.sh
 ./docker httpd setup5.sh
 docker ps
@@ -341,9 +340,9 @@ cd ..
 * 腳本
     * 檔案位置在user下
     * -p如果不存在就去創 
-```
+
 gedit prepare_web.sh
-prepare_web.sh內容為
+```
 #!/user/bin/bash
 
 for i in {1..5};
@@ -353,18 +352,20 @@ do
     echo $i > hi.htm
     cd ..
 done
-以上為內容
+```
 chmod +x prepare_web.sh
 ./prepare_web.sh
 ls
 gedit docker_httpd_setup5.sh
-docker_httpd_setup5.sh內容
+docker_httpd_setup5.sh
+```
 #!/user/bin/bash
 for i in {1..5};
 do
     portno='expr 9000 + $i'
     docker run -d -p $portno:80 -v /home/user/myweb$i:/usr/local/apache2/htdocs httpd
 done
+```
 ./docker_httpd_setup5.sh
 docker ps -a
 最後去搜尋引擎輸入 IP:9001/hi.htm 看是否成功
@@ -377,12 +378,12 @@ docker ps -a
     * .本地目錄  -t 標籤名稱
 ```
 gedit Dockerfire
-內容
+```
 FROM centos:centos7
 RUN yum -y install httpd
 EXPOSE 80
 ADD index.html /var/www/html
-以上為內容
+```
 echo "hello world " > index.html
 docker build -t myhttpd:1.0 .
 docker images
@@ -393,9 +394,9 @@ docker ps 檢查有無跑起來
 * docker haproxy
     * 192.16.56.113:9001(此處填自己IP)
     * 如出現 is alreadyin use...就代表之前有使用過
-```
+
 gedit haproxy.cfg
-內容
+```
 defaults
     mode http
     timeout client 10s
@@ -414,7 +415,7 @@ backend myservers
     server server3 192.16.56.113:9003
     server server4 192.16.56.113:9004
     server server5 192.16.56.113:9005
-以上為內容
+```
 docker run -p 8080:8080  -d --name haproxy-master -v /home/user/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg --privileged=true haproxy
 df5447cc3978605df9cfa1cbf0f924546f68c8389c4306b2fee66278ef5dc9d8
 docker ps
@@ -433,15 +434,15 @@ python3 test.py
 * 檔案位置在user下
 ```
 gedit file
-內容
+```
 11 dywang 81 12 A
 152 linda 90 58 C
 33 peter 72 95 C
 4 rite 65 34 E
 58 cora 5 85 D
-以上為內容
+```
 gedit process.awk 
-內容
+```
 BEGIN{
   sum=0;
   i=0;
@@ -455,7 +456,7 @@ END {
   printf("總和為:%d\n", sum);
   printf("average=%.2f\n", sum/i);
 }
-以上為內容
+```
 awk -f process.awk  file1
 總和為:313
 average=62.60
@@ -669,7 +670,7 @@ docker-compose --version
         * docker ps -a 有些需要手動刪除
     * 如果部屬失敗，用docker -ps查看，把剛建立的容器刪掉
         * docker rm -f$(docker ps -a-q)
-```
+
 git clone --depth=1 https://github.com/wojiushixiaobai/Dockerfile.git
 cd Dockerfile/
 cp config_example.conf .env
@@ -870,18 +871,16 @@ gedit /etc/hosts
 192.168.56.101 centos7-1
 192.168.56.102 centos7-2
 192.168.56.102 centos7-3
-以上為內容
 ```
 ## prometheus
 
-![prometheus pic]()
+
 
 * 在第一台機器下載prometheus
     * 從user目錄 進入Downloads
     * 創造prometheus 群組
     * 創造prometheus
     * 去搜尋引擎輸入ip ex 192.168.56.101:9090
-    ![pic]()
 
 ```
 cd Downloads/
@@ -895,7 +894,7 @@ chown -R prometheus.prometheus prometheus-2.35.0.linux-amd64
 mv prometheus-2.35.0.linux-amd64/ prometheus
 cd /usr/lib/systemd/system
 gedit prometheus.service
-內容
+```
 [Unit]
 Description=Prometheus
 After=network-online.target
@@ -907,7 +906,7 @@ ExecStart=/opt/module/prometheus/prometheus --config.file=/opt/module/prometheus
 
 [Install]
 WantedBy=multi-user.targe
-以上為內容
+```
 systemctl daemon-reload
 systemctl start prometheus
 
@@ -921,7 +920,7 @@ mv node_exporter-1.3.1.linux-amd64 /opt/module/
 mv node_exporter-1.3.1.linux-amd64 node_exporter
 cd /usr/lib/systemd/system/
 gedit node_exporter.service
-內容
+```
 [Unit]
 Description=node_exporter
 Documentation=https://github.com/prometheus/node_exporter
@@ -934,7 +933,7 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-以上為內容
+```
 systemctl daemon-reload
 systemctl start node_exporter
 systemctl status node_exporter
@@ -944,7 +943,8 @@ systemctl status node_exporter
 ```
 cd /opt/module/prometheus
 gedit /prometheus.yml
-內容在- targets: ['localhost:9090']下方加上
+在- targets: ['localhost:9090']下方加上
+```
   - job_name: 'node_exporter1'
     static_configs:
      - targets: ['192.168.48.101:9100']
@@ -952,7 +952,7 @@ gedit /prometheus.yml
   - job_name: 'node_exporter2'
     static_configs:
      - targets: ['192.168.48.102:9100', '192.168.48.103:9100']
-以上為內容
+```
 systemctl restart prometheus
 ```
 
@@ -992,7 +992,7 @@ systemctl start node_exporter
 ```
 cd /etc/yum.repos.d/
 gedit grafana.repo
-內容
+```
 [grafana]
 name = grafana
 baseurl = https://packages.grafana.com/oss/rpm
@@ -1002,7 +1002,7 @@ gpgcheck = 1
 gpgkey = http://packages.grafana.com/gpg.key
 sslverify = 1
 sslcacert = /etc/pki/tls/certs/ca-bundle.crt
-以上為內容
+```
 yum install grafana
 systemctl daemon-reload
 systemctl start grafana-server
@@ -1033,7 +1033,7 @@ mv pushgateway-1.4.2.linux-amd64.tar.gz pushgateway
 mv pushgateway /opt/module/
 cd /opt/module/
 gedit /usr/lib/systemd/system/pushgateway.service
-內容
+```
 Description=pushgateway
 After=network.target
 
@@ -1044,16 +1044,17 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-以上為內容
+```
 systemctl start pushgateway
 systemctl status pushgateway
 gedit /opt/module/prometheus/prometheus.yml
-內容 在最下方加上
+```
+#最下方加上
 - job_name: 'pushgateway'
     honor_labels: true
     static_configs:
       - targets: ['192.168.56.101:9091']
-以上為內容
+```
 systemctl daemon-reload
 systemctl restart prometheus
 ```
