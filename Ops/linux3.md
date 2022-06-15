@@ -626,7 +626,6 @@ cd /etc
 ls rsyncd.conf
 
 gedit rsyncd.conf
-```
 
 ```
 uid=root
@@ -665,6 +664,7 @@ cat /var/log/rsync.log
 mkdir /backup1
 
 #host1
+
 gedit /etc/rsync_vuser.passwd
 ```
 123456
